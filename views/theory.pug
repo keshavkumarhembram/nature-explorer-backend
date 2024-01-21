@@ -1,0 +1,17 @@
+doctype html
+html 
+    head 
+        title Natours #{tour}
+        link(rel='stylesheet' href='css/style.css')
+        link(rel='shortcut icon' type='image/png' href='img/favicon.png')
+    body 
+        h1= tour
+        //- h1 The Park Camper 
+        p This is a paragraph 
+
+        //- Buffered code that renders in fontend
+        p This is rendered 
+        //- Unbuffered code that is not rendered in frontend
+        - const x = 9;
+        h2= x
+        //- #{} this is interpolation syntax
