@@ -3,3 +3,6 @@
 
 # enviroment variables
 config.env
+
+# parcel cache
+.parcel-cache

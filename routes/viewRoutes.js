@@ -1,19 +1,18 @@
 const express = require('express');
 const viewController = require('./../controllers/viewController');
+const authController = require('./../controllers/authController');
+const bookingController = require('./../controllers/bookingController');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.status(200).render('base', {
-      // These are call locals -> these can be accessed in template
-      tour: "The Forest Hiker"
-    });
-  })
-  
+router.get('/',bookingController.createBookingCheckout, authController.isLoggedIn, viewController.getOverview);
+router.get('/tour/:slug',authController.isLoggedIn, viewController.getTour);
+router.get('/login',authController.isLoggedIn, viewController.getLoginForm);
+router.get('/me', authController.isLoggedIn,viewController.getMe);
+router.get('/signup', viewController.getSignupForm);
 
-router.get('/overview', viewController.getOverview);
-  
+router.get('/my-tours', authController.protect, viewController.getMyTours)
 
-router.get('/tour/:slug', viewController.getTour);
+// router.post('/submit-user-data', authController.protect, viewController.updateUserData);
 
 module.exports = router;

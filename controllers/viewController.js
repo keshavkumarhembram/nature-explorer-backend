@@ -1,8 +1,12 @@
 const Tour = require('./../models/tourModel');
+const Booking = require('./../models/bookingModel');
 const catchAsync = require('./../utils/catchAsync');
 
-exports.getOverview = catchAsync(async (req, res) => {
+const AppError = require('./../utils/appError');
+
+exports.getOverview = catchAsync(async (req, res,next) => {
     // 1) Get Tour data from collection
+    // console.log(req.originalUrl);
         const tours = await Tour.find();
 
     // 2) Build template
@@ -14,12 +18,16 @@ exports.getOverview = catchAsync(async (req, res) => {
     })
   });
 
-exports.getTour = catchAsync(async (req,res) => {
+exports.getTour = catchAsync(async (req,res,next) => {
     // 1) Get Tour data from collection
     const tour = await Tour.findOne({slug:req.params.slug}).populate({
         path: 'reviews',
         fields: 'review rating user'
     });
+
+    if( !tour ) {
+      return next(new AppError('There is no tour with that name.', 404));
+    }
 
     // 2) Build template
 
@@ -29,3 +37,38 @@ exports.getTour = catchAsync(async (req,res) => {
         tour
       })
 });
+
+exports.getMyTours = catchAsync(async (req, res, next) => {
+  // 1) Find all bookings]
+  const bookings = await Booking.find({user: req.user.id});
+
+  // 2) Find tours with the returned IDs
+  const tourIDs = bookings.map(el => el.tour);
+  const tours = await Tour.find({_id: {$in: tourIDs}});
+
+  res.status(200).render('overview', {
+    title: 'My Tours',
+    tours
+  })
+});
+
+exports.getLoginForm = (req,res) => {
+  res.locals.url = req.url;
+  res.status(200).render('login', {
+    title: "Log into your account",
+  })
+}
+
+exports.getMe = (req, res) => {
+  res.locals.url = req.url;
+  res.status(200).render('account', {
+    title: "Welcome to your account",
+  })
+}
+
+exports.getSignupForm = (req, res) => {
+  res.locals.url = req.url;
+  res.status(200).render('signup', {
+    title: "Signup to Get started"
+  })
+}

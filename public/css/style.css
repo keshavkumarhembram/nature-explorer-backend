@@ -1004,7 +1004,7 @@ body {
   width: 25rem;
   border-bottom: 1px solid currentColor;
 }
-.nav__user-img {
+.nav__user--img {
   height: 3.5rem;
   width: 3.5rem;
   border-radius: 50%;

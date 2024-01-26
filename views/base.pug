@@ -18,5 +18,13 @@ html
         
         // FOOTER
         include _footer
-
-        script(src='/js/mapbox.js')
+        
+        if url
+            if url.includes('/signup')
+                script(src='/js/signup.js')
+            if url.includes('/login')
+                script(src='/js/login.js')
+            if url.includes('/me')
+                script(src='js/updateSetting.js')
+        else 
+            script(src='/js/index.js')
