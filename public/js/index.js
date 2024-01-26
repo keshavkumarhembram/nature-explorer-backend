@@ -20,7 +20,6 @@ const logout = async () => {
       });
   
       const data = await res.json();
-      console.log(data);
   
       if (data.status === 'success') {
         location.reload(true);

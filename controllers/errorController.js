@@ -38,7 +38,7 @@ const sendErrorDev = (err, req, res) => {
   }
 };
 
-const sendErrorProd = (err, res) => {
+const sendErrorProd = (err,req, res) => {
   // Operational, trusted error: send message to client
   if(req.originalUrl.startsWith('/api')) { 
   if (err.isOperational) {
@@ -77,6 +77,6 @@ module.exports = (err, req, res, next) => {
     if (error.name === 'ValidationError')
       error = handleValidationErrorDB(error);
 
-    sendErrorProd(error, res);
+    sendErrorProd(error,req, res);
   }
 };

@@ -6,7 +6,7 @@ module.exports = class Email {
     constructor(user, url) {
         this.to = user.email;
         this.firstName = user.name.split(' ')[0];
-        this.url;
+        this.url = url;
         this.from = `Nature Explorer <${process.env.EMAIL_FROM}>`;
     }
 
@@ -54,7 +54,7 @@ module.exports = class Email {
     }
 
     async sendWelcome() {
-        await this.send(`welcome', 'Welcome to the Nature Explorer's Family`);
+        await this.send('welcome', `Welcome to the Nature Explorer's Family`);
     }
 
     async sendPasswordReset() {

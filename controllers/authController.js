@@ -43,11 +43,12 @@ exports.signup = catchAsync(async (req, res) => {
     });
     // console.log(newUser);
     const url = `${req.protocol}://${req.get('host')}/me`;
+    console.log('reached this point');
     // console.log(url)
     await new Email(newUser, url).sendWelcome();
 
     createSendToken(newUser, 201, res);
-    const token = signToken(newUser._id);
+    // const token = signToken(newUser._id);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -81,14 +82,17 @@ exports.protect = catchAsync (async (req, res, next) => {
     } else if(req.cookies.jwt) {
         token = req.cookies.jwt
     }
+    // console.log(token);
     if(!token) {
         return next(new AppError('You are not logged in! Please log in to get eccess', 401));
     }
     // 2) Verification token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log(decoded);
 
     // 3) Check if user still exists
     const freshUser = await User.findById(decoded.id);
+    // console.log(freshUser);
     if(!freshUser) {
         return next(new AppError('The user belonging to this token does no longer exits', 401));
     }
@@ -98,6 +102,7 @@ exports.protect = catchAsync (async (req, res, next) => {
     }
     // below data can be used in future
     req.user = freshUser;
+    // console.log(req.user);
     next();
 })
 
@@ -171,17 +176,29 @@ exports.resetPassword = catchAsync(async (req, res) => {
 
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
+    // console.log('reached update password');
     // 1. Get user from collection
     const user = await User.findById(req.user.id).select('+password');
+    // console.log(user);
+    // console.log({"givenPassword": req.body.passwordCurrent, "databasePassword": user.password});
+    // console.log(req.body);
 
     // 2. Check if Posted current password is correct 
     if(!user.correctPassword(req.body.passwordCurrent, user.password)) {
         next(new AppError('Invalid password', 401))
     }
+    // console.log('Passed thourgh password test.');
     // 3. If so, update password
     user.password = req.body.password;
-    user.passwordConfirm = req.body.passwordConfirm;
-    await user.save();
+    user.confirmPassword = req.body.passwordConfirm;
+    
+    console.log(user);
+    try {
+        await user.save();
+    } catch(err) {
+        console.log(err);
+    }
+    console.log('Saved');
     // 4. Log user in, send JWT
     createSendToken(user, 201, res);
 
