@@ -30,11 +30,35 @@ const logout = async () => {
     }
   };
 
+  const bookTour = async (tourId) => {
+    try {
+      const res = await fetch(`/api/v1/bookings/checkout-session/${tourId}`, {
+        method: 'POST'
+      });
+      const {session} = await res.json();
+      location.assign(session.url);
+
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
   const logoutButton = document.getElementById('logout-button');
   if(logoutButton) {
     logoutButton.addEventListener('click', () => {
       logout();
     })
   }
+
+const bookTourButton = document.getElementById('book-tour');
+
+if(bookTourButton) {
+  bookTourButton.addEventListener('click', (e) => {
+  
+      e.target.textContent = 'Processing...';
+      const { tourId } = e.target.dataset;
+      bookTour(tourId);
+  })
+}
   
 
