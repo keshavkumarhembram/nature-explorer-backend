@@ -27,7 +27,6 @@ const login = async (email, password) => {
           password,
         }),
       });
-      console.log(res);
   
       const data = await res.json();
   
@@ -38,7 +37,6 @@ const login = async (email, password) => {
         }, 1500);
       }
     } catch (err) {
-        console.log(err);
       showAlert('error', err.message || 'Login failed');
     }
   };

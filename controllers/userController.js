@@ -57,16 +57,13 @@ exports.updateMe =catchAsync(async (req, res, next) => {
   if(req.body.password || req.body.passwordConfirm) {
     return next('This route is not for password updates. Please use /update-password', 400);
   }
-  console.log(req.body);
   const filteredBody = filterObj(req.body, 'name', 'email');
-  console.log(filteredBody);
   if(req.file) filteredBody.photo = req.file.filename;
   // 2. Update user document
   const updateUser = await User.findByIdAndUpdate(req.user.id, filteredBody,{
     new: true,
     runValidators: true
   })
-  console.log(updateUser);
   res.status(200).json({
     status: 'success',
     user: updateUser

@@ -25,7 +25,6 @@ const logout = async () => {
         location.reload(true);
       }
     } catch (err) {
-      console.error(err);
       showAlert('error', 'Error logging out! Try again.');
     }
   };
@@ -39,7 +38,7 @@ const logout = async () => {
       location.assign(session.url);
 
     }catch(err) {
-      console.log(err);
+      showAlert('error', 'Error while booking tour! Try again.');
     }
   }
 

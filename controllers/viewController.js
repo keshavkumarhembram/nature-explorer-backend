@@ -6,7 +6,6 @@ const AppError = require('./../utils/appError');
 
 exports.getOverview = catchAsync(async (req, res,next) => {
     // 1) Get Tour data from collection
-    // console.log(req.originalUrl);
         const tours = await Tour.find();
 
     // 2) Build template

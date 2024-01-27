@@ -12,7 +12,6 @@ const showAlert = (type, msg, time = 7) => {
 
 const signup = async (name, email, password, confirmPassword) => {
     try {
-        console.log('inside login');
       const res = await fetch('/api/v1/users/signup', {
         method: 'POST',
         headers: {
@@ -25,7 +24,6 @@ const signup = async (name, email, password, confirmPassword) => {
           confirmPassword
         }),
       });
-      console.log(res);
   
       const data = await res.json();
   
@@ -36,14 +34,12 @@ const signup = async (name, email, password, confirmPassword) => {
         }, 1500);
       }
     } catch (err) {
-        console.log(err);
       showAlert('error', err.message || 'Login failed');
     }
   };
 
 document.getElementById('signup-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('Form Submitted');
     const name = document.getElementById('name').value ;
     const email = document.getElementById('email').value ;
     const password = document.getElementById('password').value ;

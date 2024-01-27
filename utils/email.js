@@ -48,7 +48,6 @@ module.exports = class Email {
 
         //3) Create a transport and send email
        const transport =  await this.newTransport();
-       console.log(transport);
 
        transport.sendMail(mailOptions);
     }

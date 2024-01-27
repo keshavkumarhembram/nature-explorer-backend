@@ -31,7 +31,6 @@ const settingUpdate = async (formData) => {
 
 const updatePassword = async (formData) => {
     try {
-        console.log(formData);
         const res = await fetch('/api/v1/users/update-password', {
             method: 'PATCH',
             headers: {
@@ -56,7 +55,6 @@ if(settingForm) {
         form.append('name', document.getElementById('name').value);
         form.append('email', document.getElementById('email').value);
         form.append('photo', document.getElementById('photo').files[0]);
-        console.log(form);
         settingUpdate(form);
     })
 }
