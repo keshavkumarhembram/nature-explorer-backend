@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -23,6 +24,14 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // 1) MIDDLEWARES
+app.use(cors());
+// Access-Control-Allow-Origin = anything
+/* app.use(cors({
+  origin: 'https://www.fontendendurl.com
+}))*/
+
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(helmet());
