@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "start": "node sever.js",
     "start:prod": "NODE_ENV=production nodemon sever.js",
     "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/script",
     "build:js": "parcel build ./public/js/index.js --dist-dir ./public/js --out-file bundle.js"
